@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1790307175578,
+      "tag": "0000_tranquil_kat_farrell",
+      "breakpoints": true
+    }
+  ]
+}
