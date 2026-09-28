@@ -6,9 +6,6 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
 export const metadata: Metadata = {
   title: "XtremeBrain | Sua próxima conquista",
   description: "Diagnóstico, provas anteriores e estudos orientados pelo seu desempenho.",
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

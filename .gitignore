@@ -46,3 +46,8 @@ next-env.d.ts
 /work/
 
 *.tsbuildinfo
+
+# Cloudflare local secrets
+.dev.vars
+.dev.vars.*
+lib/.access-token-test.mjs

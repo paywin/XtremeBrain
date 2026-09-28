@@ -21,7 +21,7 @@ let user=null;const originalLoad=Module._load;const zod=require('zod');
 try{
 writeFileSync(join(dir,'tsconfig.json'),JSON.stringify({extends:join(root,'tsconfig.json'),compilerOptions:{types:[join(root,'node_modules/@types/node'),join(root,'node_modules/@cloudflare/workers-types')],baseUrl:root,noEmit:false,module:'commonjs',moduleResolution:'node',jsx:'react-jsx',rootDir:root,outDir:join(dir,'compiled'),incremental:false,isolatedModules:false},include:[join(root,'app/api/study/route.ts'),join(root,'cloudflare-env.d.ts')],exclude:[join(root,'node_modules')]}));
 execFileSync(process.execPath,['node_modules/typescript/bin/tsc','-p',join(dir,'tsconfig.json')],{stdio:'inherit'});
-Module._load=function(name,parent,...rest){if(name.endsWith('chatgpt-auth'))return {getChatGPTUser:async()=>user};if(name==='@/lib/database')return {database:()=>binding};if(name.startsWith('@/lib/'))return originalLoad.call(this,join(dir,'compiled/lib',name.slice(6)+'.js'),parent,...rest);if(name==='zod')return zod;return originalLoad.call(this,name,parent,...rest)};
+Module._load=function(name,parent,...rest){if(name==='../../auth')return {getStudyUser:async()=>user};if(name==='@/lib/database')return {database:()=>binding};if(name.startsWith('@/lib/'))return originalLoad.call(this,join(dir,'compiled/lib',name.slice(6)+'.js'),parent,...rest);if(name==='zod')return zod;return originalLoad.call(this,name,parent,...rest)};
 // Resolve zod before the interception path to avoid recursive loading.
 const api=require(join(dir,'compiled/app/api/study/route.js'));
 const post=body=>api.POST(new Request('https://test.local/api/study',{method:'POST',headers:{'Content-Type':'application/json','Origin':'https://test.local'},body:JSON.stringify(body)}));

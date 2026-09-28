@@ -1,10 +1,16 @@
+# XtremeBrain — hospedagem independente
+
+Workers + D1 + login por e-mail no Cloudflare Access. Sem dependência de conta ou assinatura ChatGPT. Acesso restrito a familiares e amigos pela política de e-mails permitidos.
+
+**Implantação:** siga [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md). O código está preparado; o endereço novo só estará disponível após configurar e publicar na conta Cloudflare do titular.
+
 # XtremeBrain
 
 Plataforma de estudos em português para vestibulares e concursos. React + TypeScript, Vinext, Cloudflare Workers e D1 (SQLite). Gráficos com Recharts; componentes acessíveis com Radix/Shadcn.
 
 ## Funcionalidades
 
-- Perfil com objetivo e tempo diário, login com ChatGPT no ambiente hospedado.
+- Perfil com objetivo e tempo diário; login por código enviado ao e-mail pelo Cloudflare Access.
 - Diagnóstico de fundamentos por trilha, com 8–12 questões.
 - Provas oficiais em PDF, folha de respostas, cronômetro de tempo livre, rascunho salvo e retomada.
 - Correção no servidor; respostas em branco erradas e questões anuladas fora do percentual de aprendizagem.
@@ -47,16 +53,16 @@ pnpm dev
 O build gera `dist/server/wrangler.json`. Para aplicar a migração somente no banco local:
 
 ```bash
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_tranquil_kat_farrell.sql
+pnpm exec wrangler d1 migrations apply DB --local --config wrangler.json
 ```
 
 Não reaplique migrações já aplicadas. Novas mudanças de esquema exigem novas migrações via `pnpm db:generate`. A publicação aplica migrações no banco de produção separadamente. Nunca editar migração já publicada.
 
 ### Autenticação e implantação
 
-A hospedagem configurada em `.openai/hosting.json` fornece o fluxo de login e os cabeçalhos autenticados. A API verifica identidade no servidor e limita todas as consultas ao usuário autenticado; não aceita `userId` enviado pelo cliente. Os cabeçalhos devem vir exclusivamente do proxy confiável da hospedagem. Não exponha o Worker diretamente em outro host aceitando cabeçalhos arbitrários. Para migrar a hospedagem, implemente autenticação real por sessão e substitua `app/chatgpt-auth.ts`.
+O servidor valida a assinatura RS256, emissor, público-alvo, tipo e validade do JWT do Cloudflare Access. Somente então associa o identificador autenticado aos registros do D1. Cabeçalhos antigos do ChatGPT e `userId` enviado pelo cliente não concedem acesso. Sem Access configurado, o site não libera os estudos e a API responde 401.
 
-O desenvolvimento local pode usar a simulação do starter em ambientes compatíveis. O preview gerenciado pode ser anônimo; autenticação real é feita na URL publicada. `test-api.mjs` usa usuários fictícios e SQLite isolado em memória e não adiciona bypass na aplicação. A publicação inicial é privada.
+O perfil é criado depois da primeira entrada com um e-mail permitido. Os testes usam chaves temporárias e banco isolado; não há autenticação simulada no aplicativo. A configuração e publicação estão em [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md).
 
 ## Organização
 
