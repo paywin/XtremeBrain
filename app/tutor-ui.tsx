@@ -12,8 +12,9 @@ export function Tutor({ image, visible, motion, context, request, signedIn }: { 
  const [open,setOpen]=useState(false),[messages,setMessages]=useState<TutorMessage[]>([]),[text,setText]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');
  const [pos,setPos]=useState({x:20,y:100}),[dragging,setDragging]=useState(false),[complaint,setComplaint]=useState(false),[walking,setWalking]=useState(false);
  const anchor=useRef({x:20,y:100}), drag=useRef<{x:number;y:number;px:number;py:number;moved:boolean}|null>(null), list=useRef<HTMLDivElement>(null), previousContext=useRef('');
- const clamp=(x:number,y:number)=>({x:Math.max(8,Math.min(window.innerWidth-72,x)),y:Math.max(8,Math.min(window.innerHeight-80,y))});
- useEffect(()=>{const initial=clamp(window.innerWidth-82,window.innerHeight-110);try{const saved=JSON.parse(localStorage.getItem('xb.tutor.position')||'null');if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)){initial.x=saved.x;initial.y=saved.y}}catch{}anchor.current=clamp(initial.x,initial.y);setPos(anchor.current);const resize=()=>{anchor.current=clamp(anchor.current.x,anchor.current.y);setPos(anchor.current)};window.addEventListener('resize',resize);return()=>window.removeEventListener('resize',resize)},[]);
+ const petSize=()=>window.innerWidth<=480?{width:88,height:112}:{width:112,height:144};
+ const clamp=(x:number,y:number)=>{const size=petSize();return {x:Math.max(12,Math.min(window.innerWidth-size.width-12,x)),y:Math.max(12,Math.min(window.innerHeight-size.height-12,y))}};
+ useEffect(()=>{const initial=clamp(window.innerWidth-petSize().width-24,window.innerHeight-petSize().height-28);try{const saved=JSON.parse(localStorage.getItem('xb.tutor.position')||'null');if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)){initial.x=saved.x;initial.y=saved.y}}catch{}anchor.current=clamp(initial.x,initial.y);setPos(anchor.current);const resize=()=>{anchor.current=clamp(anchor.current.x,anchor.current.y);setPos(anchor.current)};window.addEventListener('resize',resize);return()=>window.removeEventListener('resize',resize)},[]);
  useEffect(()=>{if(request)setOpen(true)},[request]);
  useEffect(()=>{const key=context.mode+context.questionId;if(previousContext.current!==key){setMessages([]);setError('');previousContext.current=key}},[context.mode,context.questionId]);
  useEffect(()=>{
@@ -21,10 +22,10 @@ export function Tutor({ image, visible, motion, context, request, signedIn }: { 
   if(!motion||open||dragging||!visible||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   let stop:ReturnType<typeof setTimeout>|undefined;
   const timer=setInterval(()=>{
-   setPos(clamp(anchor.current.x+(Math.random()-.5)*48,anchor.current.y));
+   setPos(previous=>{const radius=Math.min(180,window.innerWidth*.32);const left=clamp(anchor.current.x-radius,anchor.current.y).x;const right=clamp(anchor.current.x+radius,anchor.current.y).x;const target=previous.x>(left+right)/2?left:right;return clamp(target,anchor.current.y)});
    setWalking(true);
-   stop=setTimeout(()=>setWalking(false),3000);
-  },4500);
+   stop=setTimeout(()=>setWalking(false),4200);
+  },5000);
   return()=>{clearInterval(timer);clearTimeout(stop)};
  },[motion,open,dragging,visible]);
  useEffect(()=>{if(!complaint)return;const timer=setTimeout(()=>setComplaint(false),2600);return()=>clearTimeout(timer)},[complaint]);
