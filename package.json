@@ -19,7 +19,8 @@
     "cf:setup": "node scripts/cloudflare-setup.mjs",
     "cf:configure": "node scripts/cloudflare-configure.mjs",
     "cf:deploy": "node scripts/cloudflare-deploy.mjs",
-    "cf:status": "wrangler whoami"
+    "cf:status": "wrangler whoami",
+    "test:tutor": "node scripts/test-tutor.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
