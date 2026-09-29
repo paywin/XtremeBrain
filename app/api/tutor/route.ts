@@ -36,6 +36,7 @@ export async function POST(request: Request) {
   } catch (e) {
     if (e instanceof z.ZodError || e instanceof SyntaxError) return json({ error: 'Confira a pergunta enviada.' }, 400);
     const code = e instanceof Error ? e.message : '';
-    return json({ error: code === 'QUOTA' ? 'A cota do provedor foi atingida. Tente novamente mais tarde.' : code === 'NOT_CONFIGURED' ? 'O tutor ainda não está configurado.' : 'Não foi possível responder agora. Tente novamente em instantes.' }, code === 'QUOTA' ? 429 : 503);
+    if (!['QUOTA','NOT_CONFIGURED','GEMINI_KEY','GEMINI_MODEL','GEMINI_REQUEST','PROVIDER','EMPTY'].includes(code)) console.error('Tutor request failed',e);
+    return json({ error: code === 'QUOTA' ? 'A cota do provedor foi atingida. Tente novamente mais tarde.' : code === 'NOT_CONFIGURED' ? 'O tutor ainda não está configurado.' : code === 'GEMINI_KEY' ? 'O Gemini recusou a chave de API. Confira a chave configurada na Cloudflare.' : code === 'GEMINI_MODEL' ? 'Este modelo Gemini não está disponível para sua chave. Configure outro AI_MODEL no Worker.' : code === 'GEMINI_REQUEST' ? 'O Gemini recusou a solicitação. Confira o modelo configurado e os registros do Worker.' : 'Não foi possível responder agora. Tente novamente em instantes.' }, code === 'QUOTA' ? 429 : 503);
   }
 }
