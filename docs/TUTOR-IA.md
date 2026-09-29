@@ -13,7 +13,7 @@ npm run cf:deploy
 
 Cole a chave somente no prompt do Wrangler. Nunca coloque a chave no Git, no frontend ou em variáveis `NEXT_PUBLIC_*`. A implantação aplica as migrações, incluindo `0001_tutor_usage.sql`. Se executar a publicação manualmente, aplique primeiro `npx wrangler d1 migrations apply xtremebrain --remote`.
 
-Variáveis opcionais do Worker: `AI_PROVIDER=gemini` e `AI_MODEL=gemini-2.5-flash`. Escolha em `AI_MODEL` um modelo disponível para sua chave. A seleção e os adaptadores ficam em `lib/tutor.ts`; adicione outros provedores ali, com seus segredos exclusivos no servidor. Apenas Gemini está implementado nesta versão.
+Variáveis opcionais do Worker: `AI_PROVIDER=gemini` e `AI_MODEL=gemini-3.5-flash-lite`. Escolha em `AI_MODEL` um modelo disponível para sua chave. A seleção e os adaptadores ficam em `lib/tutor.ts`; adicione outros provedores ali, com seus segredos exclusivos no servidor. Apenas Gemini está implementado nesta versão.
 
 Há limite de 60 requisições por pessoa por dia UTC, imposto atomicamente pelo D1. Requisições que chegam ao provedor contam mesmo se ele falhar. Limites adicionais e cobrança do Gemini continuam valendo. Configure orçamento no provedor conforme sua conta.
 
