@@ -10,7 +10,16 @@ export const tutorProviders = {
       signal: AbortSignal.timeout(45000),
       body: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.text }] })), generationConfig: { maxOutputTokens: 4096, temperature: 0.4 } }),
     });
-    if (!response.ok) throw new Error(response.status === 429 ? 'QUOTA' : 'PROVIDER');
+    if (!response.ok) {
+      const details = await response.json().catch(() => null) as { error?: { status?: string; message?: string } } | null;
+      const reason = details?.error?.status || 'UNKNOWN';
+      console.error('Gemini request failed', { status: response.status, reason, model });
+      if (response.status === 429) throw new Error('QUOTA');
+      if (response.status === 401 || response.status === 403 || /API_KEY_INVALID|PERMISSION_DENIED/.test(reason)) throw new Error('GEMINI_KEY');
+      if (response.status === 404) throw new Error('GEMINI_MODEL');
+      if (response.status === 400) throw new Error('GEMINI_REQUEST');
+      throw new Error('PROVIDER');
+    }
     const data = await response.json() as { candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[] };
     const text = data.candidates?.[0]?.content?.parts?.filter(p => !p.thought).map(p => p.text || '').join('').trim();
     if (!text) throw new Error('EMPTY');
