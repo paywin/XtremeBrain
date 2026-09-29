@@ -4,7 +4,7 @@ export type TutorConfig = { GEMINI_API_KEY?: string; AI_MODEL?: string; AI_PROVI
 export const tutorProviders = {
   gemini: async (config: TutorConfig, system: string, messages: TutorMessage[]) => {
     if (!config.GEMINI_API_KEY) throw new Error('NOT_CONFIGURED');
-    const model = config.AI_MODEL || 'gemini-2.5-flash';
+    const model = config.AI_MODEL || 'gemini-3.5-flash-lite';
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': config.GEMINI_API_KEY },
       signal: AbortSignal.timeout(45000),
