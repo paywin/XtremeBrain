@@ -15,6 +15,16 @@ export const badges=[
  {id:'hours10',name:'Arquiteto do Conhecimento',description:'Acumule 10 horas de estudo ativo.',rarity:'epic',icon:'castle',goal:36000,metric:'seconds'},
  {id:'streak30',name:'Fênix da Constância',description:'Alcance uma sequência de 30 dias de estudo.',rarity:'legendary',icon:'flame',goal:30,metric:'bestStreak'},
  {id:'officialPerfect',name:'Mestre da Prova',description:'Acerte todas as questões válidas de um caderno oficial completo.',rarity:'legendary',icon:'trophy',goal:1,metric:'officialPerfect'},
+ {id:'attempts5',name:'Ritmo de Descoberta',description:'Conclua 5 atividades com pelo menos uma resposta em cada.',rarity:'common',icon:'spark',goal:5,metric:'attempts'},
+ {id:'minutes30',name:'Tempo de Aprender',description:'Acumule 30 minutos de estudo ativo.',rarity:'common',icon:'clock',goal:1800,metric:'seconds'},
+ {id:'questions100',name:'Centurião das Questões',description:'Responda 100 questões em atividades concluídas.',rarity:'uncommon',icon:'target',goal:100,metric:'answered'},
+ {id:'recovery3',name:'Virada de Chave',description:'Acerte 3 questões diferentes que já havia errado.',rarity:'uncommon',icon:'gem',goal:3,metric:'recovered'},
+ {id:'attempts20',name:'Desbravador do Saber',description:'Conclua 20 atividades com pelo menos uma resposta em cada.',rarity:'rare',icon:'compass',goal:20,metric:'attempts'},
+ {id:'hours5',name:'Feiticeiro dos Estudos',description:'Acumule 5 horas de estudo ativo.',rarity:'rare',icon:'wand',goal:18000,metric:'seconds'},
+ {id:'questions500',name:'Sentinela das Respostas',description:'Responda 500 questões em atividades concluídas.',rarity:'epic',icon:'shield',goal:500,metric:'answered'},
+ {id:'streak14',name:'Chama Persistente',description:'Alcance uma sequência de 14 dias de estudo.',rarity:'epic',icon:'flame',goal:14,metric:'bestStreak'},
+ {id:'recovery50',name:'Mestre da Superação',description:'Acerte 50 questões diferentes que já havia errado.',rarity:'legendary',icon:'trophy',goal:50,metric:'recovered'},
+ {id:'hours50',name:'Fortaleza do Saber',description:'Acumule 50 horas de estudo ativo, no seu ritmo.',rarity:'legendary',icon:'castle',goal:180000,metric:'seconds'},
  {id:'enemPerfect',name:'Lenda do ENEM',description:'Acerte todas as questões válidas dos dois dias da mesma edição do ENEM. Não inclui redação nem equivale à nota TRI.',rarity:'mythic',icon:'crown',goal:180,metric:'enemPerfect'},
 ] as const;
 export type BadgeId=typeof badges[number]['id'];

@@ -4,7 +4,7 @@ Abra **Conquistas** ou **Amigos** no menu. O início também mostra um resumo da
 
 ## Regras
 
-- 12 badges com nomes e símbolos próprios: comum, incomum, rara, épica, lendária e mítica.
+- 22 badges com nomes e símbolos próprios: comum, incomum, rara, épica, lendária e mítica.
 - Mago do Saber: 3 horas acumuladas de estudo ativo, sem exigir uma sessão longa.
 - Tempo ativo: a prova ou as páginas de plano, erros e tendências precisam estar visíveis, com interação nos últimos 2 minutos. O servidor recebe sinais a cada 30 segundos. Aba oculta, sessão ociosa e intervalos longos não acumulam tempo; abas simultâneas compartilham um relógio no banco. É uma aproximação de atividade, não prova de atenção ou sistema antifraude.
 - O tempo antigo das tentativas inclui pausas, por isso não é convertido em horas de conquistas. Tentativas antigas continuam valendo para respostas, sequência e acertos.
